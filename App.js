@@ -15,7 +15,7 @@ import {
 import {AppProvider} from './store/app_context';
 const Stack = createNativeStackNavigator();
 
-function App() {
+const App = () => {
   return (
     <AppProvider>
       <NavigationContainer>
@@ -32,6 +32,6 @@ function App() {
       </NavigationContainer>
     </AppProvider>
   );
-}
+};
 
 export default App;
