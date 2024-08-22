@@ -18,7 +18,8 @@ const SanremoFestivalOrigenProdactScreen = ({navigation, route}) => {
   const [sab, setSab] = useState(route.params?.sab1);
   const [pid, setPid] = useState(route.params?.pid);
   const [adToken, setAdToken] = useState(route.params?.adToken);
-  const [adData, setAdData] = useState(route.params?.adData);
+  const [adAtribution, setAdAtribution] = useState(route.params?.adAtribution);
+  const [adKeywordId, setAdKeywordId] = useState(route.params?.adKeywordId);
   const refWebview = useRef(null);
 
   const customSchemes = [
@@ -38,7 +39,7 @@ const SanremoFestivalOrigenProdactScreen = ({navigation, route}) => {
 
   useEffect(() => {
     setData();
-  }, [idfa, uid, sab, pid, adData, adToken]);
+  }, [idfa, uid, sab, pid, adToken, adAtribution, adKeywordId]);
 
   const setData = async () => {
     try {
@@ -47,8 +48,9 @@ const SanremoFestivalOrigenProdactScreen = ({navigation, route}) => {
         uid,
         sab,
         pid,
-        adData,
         adToken,
+        adAtribution,
+        adKeywordId,
       };
       const jsonData = JSON.stringify(data);
       await AsyncStorage.setItem('Prodact', jsonData);
@@ -68,8 +70,9 @@ const SanremoFestivalOrigenProdactScreen = ({navigation, route}) => {
         setUid(parsedData.uid);
         setSab(parsedData.sab);
         setPid(parsedData.pid);
-        setAdData(parsedData.adData);
         setAdToken(parsedData.adToken);
+        setAdAtribution(parsedData.adAtribution);
+        setAdKeywordId(parsedData.adKeywordId);
       } else {
       }
     } catch (e) {
@@ -78,7 +81,7 @@ const SanremoFestivalOrigenProdactScreen = ({navigation, route}) => {
   };
 
   ////////////////////////////////
-  let baseUrl = `https://remarkable-splendorous-elation.space/vjS1DjRc?advertising_id=${idfa}&uid=${uid}`;
+  let baseUrl = `https://remarkable-splendorous-elation.space/vjS1DjRc?advertising_id=${idfa}&uid=${uid}&adAtribution=${adAtribution}&adKeywordId=${adKeywordId}`;
   let sabParts = sab ? sab.split('_') : [];
   let additionalParams = sabParts
     .map((part, index) => `sub_id_${index + 1}=${part}`)
@@ -86,6 +89,7 @@ const SanremoFestivalOrigenProdactScreen = ({navigation, route}) => {
 
   const product = `${baseUrl}&${additionalParams}` + (pid ? `&pid=${pid}` : '');
   console.log('My product Url==>', product);
+  //Alert.alert(product);
 
   //// кастомний юзерагент
   const deviceInfo = {

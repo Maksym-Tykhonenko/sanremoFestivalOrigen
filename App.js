@@ -26,14 +26,18 @@ import AppleAdsAttribution from '@hexigames/react-native-apple-ads-attribution';
 const App = () => {
   const [route, setRoute] = useState(true);
   const [idfa, setIdfa] = useState();
-  //console.log('idfa==>', idfa);
+  console.log('idfa==>', idfa);
+  //Alert.alert('idfa', idfa);
   const [appsUid, setAppsUid] = useState(null);
   const [sab1, setSab1] = useState();
   const [pid, setPid] = useState();
   const [adServicesToken, setAdServicesToken] = useState(null);
-  console.log('adServicesToken', adServicesToken);
-  const [adServicesData, setAdServicesData] = useState(null);
-  console.log('adServicesData', adServicesData);
+  //console.log('adServicesToken', adServicesToken);
+  //Alert.alert('adServicesToken', adServicesToken);
+  const [adServicesAtribution, setAdServicesAtribution] = useState(null);
+  const [adServicesKeywordId, setAdServicesKeywordId] = useState(null);
+
+  //Alert.alert('data', adServicesData);
 
   useEffect(() => {
     getData();
@@ -41,7 +45,15 @@ const App = () => {
 
   useEffect(() => {
     setData();
-  }, [idfa, appsUid, sab1, pid, adServicesToken, adServicesData]);
+  }, [
+    idfa,
+    appsUid,
+    sab1,
+    pid,
+    adServicesToken,
+    adServicesAtribution,
+    adServicesKeywordId,
+  ]);
 
   const setData = async () => {
     try {
@@ -51,7 +63,8 @@ const App = () => {
         sab1,
         pid,
         adServicesToken,
-        adServicesData,
+        adServicesAtribution,
+        adServicesKeywordId,
       };
       const jsonData = JSON.stringify(data);
       await AsyncStorage.setItem('App', jsonData);
@@ -72,8 +85,9 @@ const App = () => {
         setAppsUid(parsedData.appsUid);
         setSab1(parsedData.sab1);
         setPid(parsedData.pid);
-        setAdServicesData(parsedData.adServicesData);
         setAdServicesToken(parsedData.adServicesToken);
+        setAdServicesAtribution(parsedData.adServicesAtribution);
+        setAdServicesKeywordId(parsedData.adServicesKeywordId);
       } else {
         await fetchIdfa();
         await requestOneSignallFoo();
@@ -95,9 +109,10 @@ const App = () => {
     try {
       const token = await AppleAdsAttribution.getAdServicesAttributionToken();
       setAdServicesToken(token);
-      Alert.alert('token', adServicesToken);
+      //Alert.alert('token', adServicesToken);
     } catch (error) {
-      console.error('Помилка при отриманні AdServices токену:', error.message);
+      await fetchAdServicesToken();
+      //console.error('Помилка при отриманні AdServices токену:', error.message);
     }
   };
 
@@ -105,7 +120,10 @@ const App = () => {
   const fetchAdServicesAttributionData = async () => {
     try {
       const data = await AppleAdsAttribution.getAdServicesAttributionData();
-      setAdServicesData(data);
+      const attributionValue = data.attribution ? '1' : '0';
+      setAdServicesAtribution(attributionValue);
+      setAdServicesKeywordId(data.keywordId);
+      //Alert.alert('data', data)
     } catch (error) {
       console.error('Помилка при отриманні даних AdServices:', error.message);
     }
@@ -233,6 +251,7 @@ const App = () => {
         setIdfa(true); //true
         //setIdfa(null);
         fetchIdfa();
+        //Alert.alert('idfa', idfa);
       }
     } catch (err) {
       //console.log('err', err);
@@ -280,7 +299,8 @@ const App = () => {
               pid: pid,
               uid: appsUid,
               adToken: adServicesToken,
-              adData: adServicesData,
+              adAtribution: adServicesAtribution,
+              adKeywordId: adServicesKeywordId,
             }}
             name="SanremoFestivalOrigenProdactScreen"
             component={SanremoFestivalOrigenProdactScreen}
