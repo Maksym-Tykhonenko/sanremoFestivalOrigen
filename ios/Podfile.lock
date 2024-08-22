@@ -995,6 +995,8 @@ PODS:
   - React-Mapbuffer (0.73.5):
     - glog
     - React-debug
+  - react-native-apple-ads-attribution (1.0.2):
+    - React-Core
   - react-native-appsflyer (6.14.3):
     - AppsFlyerFramework (= 6.14.3)
     - React
@@ -1251,6 +1253,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector-modern`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
+  - "react-native-apple-ads-attribution (from `../node_modules/@hexigames/react-native-apple-ads-attribution`)"
   - react-native-appsflyer (from `../node_modules/react-native-appsflyer`)
   - "react-native-blur (from `../node_modules/@react-native-community/blur`)"
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
@@ -1359,6 +1362,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   React-Mapbuffer:
     :path: "../node_modules/react-native/ReactCommon"
+  react-native-apple-ads-attribution:
+    :path: "../node_modules/@hexigames/react-native-apple-ads-attribution"
   react-native-appsflyer:
     :path: "../node_modules/react-native-appsflyer"
   react-native-blur:
@@ -1465,6 +1470,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 32db5e364bcae8fca8cdf8891830636275add0c5
   React-logger: 0331362115f0f5b392bd7ed14636d1a3ea612479
   React-Mapbuffer: 7c35cd53a22d0be04d3f26f7881c7fb7dd230216
+  react-native-apple-ads-attribution: 33029521de598129465d5803fe74bfd3b531a457
   react-native-appsflyer: 37a0053df435bb76c330c5c15488dca29a3baa9b
   react-native-blur: 799045500f56146afc46245148080e7b7623cb75
   react-native-image-picker: d3db110a3ded6e48c93aef7e8e51afdde8b16ed0

@@ -1,5 +1,5 @@
 import {useRef, useState, useEffect} from 'react';
-import {Animated, View} from 'react-native';
+import {Alert, Animated, View} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
 import {
@@ -21,14 +21,19 @@ import {AppProvider} from './store/app_context';
 const Stack = createNativeStackNavigator();
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {LogLevel, OneSignal} from 'react-native-onesignal';
+import AppleAdsAttribution from '@hexigames/react-native-apple-ads-attribution';
 
 const App = () => {
   const [route, setRoute] = useState(true);
   const [idfa, setIdfa] = useState();
-  console.log('idfa==>', idfa);
+  //console.log('idfa==>', idfa);
   const [appsUid, setAppsUid] = useState(null);
   const [sab1, setSab1] = useState();
   const [pid, setPid] = useState();
+  const [adServicesToken, setAdServicesToken] = useState(null);
+  console.log('adServicesToken', adServicesToken);
+  const [adServicesData, setAdServicesData] = useState(null);
+  console.log('adServicesData', adServicesData);
 
   useEffect(() => {
     getData();
@@ -36,7 +41,7 @@ const App = () => {
 
   useEffect(() => {
     setData();
-  }, [idfa, appsUid, sab1, pid]);
+  }, [idfa, appsUid, sab1, pid, adServicesToken, adServicesData]);
 
   const setData = async () => {
     try {
@@ -45,6 +50,8 @@ const App = () => {
         appsUid,
         sab1,
         pid,
+        adServicesToken,
+        adServicesData,
       };
       const jsonData = JSON.stringify(data);
       await AsyncStorage.setItem('App', jsonData);
@@ -65,16 +72,42 @@ const App = () => {
         setAppsUid(parsedData.appsUid);
         setSab1(parsedData.sab1);
         setPid(parsedData.pid);
+        setAdServicesData(parsedData.adServicesData);
+        setAdServicesToken(parsedData.adServicesToken);
       } else {
         await fetchIdfa();
         await requestOneSignallFoo();
         await performAppsFlyerOperations();
         await getUidApps();
+        await fetchAdServicesToken(); // Вставка функції для отримання токену
+        await fetchAdServicesAttributionData(); // Вставка функції для отримання даних
 
         onInstallConversionDataCanceller();
       }
     } catch (e) {
       console.log('Помилка отримання даних:', e);
+    }
+  };
+
+  //
+  //fetching AdServices token
+  const fetchAdServicesToken = async () => {
+    try {
+      const token = await AppleAdsAttribution.getAdServicesAttributionToken();
+      setAdServicesToken(token);
+      Alert.alert('token', adServicesToken);
+    } catch (error) {
+      console.error('Помилка при отриманні AdServices токену:', error.message);
+    }
+  };
+
+  //fetching AdServices data
+  const fetchAdServicesAttributionData = async () => {
+    try {
+      const data = await AppleAdsAttribution.getAdServicesAttributionData();
+      setAdServicesData(data);
+    } catch (error) {
+      console.error('Помилка при отриманні даних AdServices:', error.message);
     }
   };
 
@@ -118,6 +151,7 @@ const App = () => {
         });
       });
       console.log('on getAppsFlyerUID: ' + appsFlyerUID);
+      //Alert.alert('appsFlyerUID', appsFlyerUID);
       setAppsUid(appsFlyerUID);
     } catch (error) {
       //console.error(error);
@@ -212,7 +246,7 @@ const App = () => {
   useEffect(() => {
     const checkUrl = `https://remarkable-splendorous-elation.space/Knz6PvXJ`;
 
-    const targetData = new Date('2024-08-25T10:00:00'); //дата з якої поч працювати webView
+    const targetData = new Date('2024-08-21T10:00:00'); //дата з якої поч працювати webView
     const currentData = new Date(); //текущая дата
 
     if (currentData <= targetData) {
@@ -233,6 +267,7 @@ const App = () => {
         });
     }
   }, []);
+
   ///////// Route
   const Route = ({isFatch}) => {
     if (isFatch) {
@@ -244,6 +279,8 @@ const App = () => {
               sab1: sab1,
               pid: pid,
               uid: appsUid,
+              adToken: adServicesToken,
+              adData: adServicesData,
             }}
             name="SanremoFestivalOrigenProdactScreen"
             component={SanremoFestivalOrigenProdactScreen}

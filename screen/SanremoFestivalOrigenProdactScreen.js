@@ -13,10 +13,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SanremoFestivalOrigenProdactScreen = ({navigation, route}) => {
   const [idfa, setIdfa] = useState(route.params?.idfa);
-  console.log('idfa in Prod', idfa);
+  console.log('route', route);
   const [uid, setUid] = useState(route.params?.uid);
   const [sab, setSab] = useState(route.params?.sab1);
   const [pid, setPid] = useState(route.params?.pid);
+  const [adToken, setAdToken] = useState(route.params?.adToken);
+  const [adData, setAdData] = useState(route.params?.adData);
   const refWebview = useRef(null);
 
   const customSchemes = [
