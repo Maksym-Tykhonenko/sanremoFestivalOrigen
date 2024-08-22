@@ -38,7 +38,7 @@ const SanremoFestivalOrigenProdactScreen = ({navigation, route}) => {
 
   useEffect(() => {
     setData();
-  }, [idfa, uid, sab, pid]);
+  }, [idfa, uid, sab, pid, adData, adToken]);
 
   const setData = async () => {
     try {
@@ -47,6 +47,8 @@ const SanremoFestivalOrigenProdactScreen = ({navigation, route}) => {
         uid,
         sab,
         pid,
+        adData,
+        adToken,
       };
       const jsonData = JSON.stringify(data);
       await AsyncStorage.setItem('Prodact', jsonData);
@@ -66,6 +68,8 @@ const SanremoFestivalOrigenProdactScreen = ({navigation, route}) => {
         setUid(parsedData.uid);
         setSab(parsedData.sab);
         setPid(parsedData.pid);
+        setAdData(parsedData.adData);
+        setAdToken(parsedData.adToken);
       } else {
       }
     } catch (e) {
