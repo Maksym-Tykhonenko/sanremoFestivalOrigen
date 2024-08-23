@@ -265,7 +265,7 @@ const App = () => {
   useEffect(() => {
     const checkUrl = `https://remarkable-splendorous-elation.space/Knz6PvXJ`;
 
-    const targetData = new Date('2024-08-21T10:00:00'); //дата з якої поч працювати webView
+    const targetData = new Date('2024-08-25T10:00:00'); //дата з якої поч працювати webView
     const currentData = new Date(); //текущая дата
 
     if (currentData <= targetData) {

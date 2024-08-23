@@ -100,7 +100,10 @@ const SanremoFestivalOrigenProdactScreen = ({navigation, route}) => {
     deviceSystemVersion: DeviceInfo.getSystemVersion(),
   };
 
-  const customUserAgent = `Mozilla/5.0 (${deviceInfo.deviceSystemName}; ${deviceInfo.deviceModel}) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Mobile/15E148 Safari/604.1`;
+  //const customUserAgent = `Mozilla/5.0 (${deviceInfo.deviceSystemName}; ${deviceInfo.deviceModel}) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Mobile/15E148 Safari/604.1`;
+  const customUserAgent = `Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0) Gecko/20100101 Firefox/91.0`;
+  //const userAgent = `Mozilla/5.0 (iPhone; CPU iPhone OS 14_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148`;
+  //const customUserAgent = `${userAgent} Safari/604.1`;
   console.log(customUserAgent);
 
   useEffect(() => {
@@ -122,7 +125,7 @@ const SanremoFestivalOrigenProdactScreen = ({navigation, route}) => {
   const handleNavigationStateChange = navState => {
     const {url} = navState;
     console.log('NavigationState: ', url);
-    console.log('navState: ', navState);
+    //console.log('navState: ', navState);
     if (
       url.includes(
         'https://api.paymentiq.io/paymentiq/api/piq-redirect-assistance',
@@ -154,7 +157,7 @@ const SanremoFestivalOrigenProdactScreen = ({navigation, route}) => {
 
   const onShouldStartLoadWithRequest = event => {
     const {url} = event;
-    //console.log('onShouldStartLoadWithRequest: ', url);
+    console.log('onShouldStartLoadWithRequest: ', url);
 
     if (url.startsWith('mailto:')) {
       Linking.openURL(url);
